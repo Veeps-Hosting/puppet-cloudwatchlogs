@@ -33,6 +33,9 @@ class cloudwatchlogs (
   $logs                 = {}
 ) inherits cloudwatchlogs::params {
 
+  notify("Notify - region var in init is [${$region}]" )
+  info("Info - region var in init is [${$region}]")
+
   validate_hash($logs)
   $logs_real       = merge(hiera_hash('cloudwatchlogs::logs',{}),$logs)
 

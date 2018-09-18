@@ -6,6 +6,10 @@ define cloudwatchlogs::log (
   $multi_line_start_pattern = undef,
 
 ){
+
+  notify("Notify - path var in log is [${$path}]" )
+  info("Info - path var in log is [${$path}]")
+
   if $path == undef {
     $log_path = $name
   } else {
