@@ -1,25 +1,34 @@
 {
-  "name": "kemra102-cloudwatchlogs",
+  "name": "geekify-cloudwatchlogs",
   "version": "2.3.1",
-  "author": "kemra102",
-  "summary": "Configure AWS Cloudwatch Logs on Amazon Linux, Ubuntu, Red Hat & CentOS EC2 instances.",
+  "author": "geekify",
+  "summary": "Forked from kemra102 - Configure AWS Cloudwatch Logs on Amazon Linux, Ubuntu, Red Hat & CentOS EC2 instances.",
   "license": "BSD-2-Clause",
-  "source": "https://github.com/kemra102/puppet-cloudwatchlogs",
-  "project_page": "https://github.com/kemra102/puppet-cloudwatchlogs",
-  "issues_url": "https://github.com/kemra102/puppet-cloudwatchlogs/issues",
-  "tags": ["aws", "cloudwatch", "cloud", "watch", "logs", "logging", "amazon"],
+  "source": "https://github.com/dsappet/puppet-cloudwatchlogs",
+  "project_page": "https://github.com/dsappet/puppet-cloudwatchlogs",
+  "issues_url": "https://github.com/dsappet/puppet-cloudwatchlogs/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.1.0"
+    }
+  ],
   "operatingsystem_support": [
     {
-    "operatingsystem":"Amazon"
+      "operatingsystem": "Amazon"
     },
     {
-    "operatingsystem":"Ubuntu"
+      "operatingsystem": "Ubuntu"
     },
     {
-    "operatingsystem":"RedHat"
+      "operatingsystem": "RedHat"
     },
     {
-    "operatingsystem":"CentOS"
+      "operatingsystem": "CentOS"
     }
   ],
   "requirements": [
@@ -32,8 +41,16 @@
       "version_requirement": ">= 3.0.0"
     }
   ],
-  "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"},
-    {"name":"puppetlabs/concat","version_requirement":">= 1.1.0"}
-  ]
+  "tags": [
+    "aws",
+    "cloudwatch",
+    "cloud",
+    "watch",
+    "logs",
+    "logging",
+    "amazon"
+  ],
+  "pdk-version": "1.7.0",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
+  "template-ref": "1.7.0-0-g57412ed"
 }
