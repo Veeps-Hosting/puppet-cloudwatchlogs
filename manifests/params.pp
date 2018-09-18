@@ -13,6 +13,6 @@ class cloudwatchlogs::params {
     default: { $service_name = 'awslogs' }
   }
   $logging_config_file = '/etc/awslogs/awslogs_dot_log.conf'
-  $region = undef
+  $region = 'eu-west-1'
   $log_level = undef
 }
