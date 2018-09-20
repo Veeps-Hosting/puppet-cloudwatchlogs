@@ -38,7 +38,6 @@ class cloudwatchlogs (
   # hiera - Performs a standard priority lookup and returns the most specific value for a given key. The returned value can be data of any type (strings, arrays, or hashes).
   # hiera_array - Returns all matches throughout the hierarchy — not just the first match — as a flattened array of unique values. If any of the matched values are arrays, they’re flattened and included in the results.
   # hiera_hash - Returns a merged hash of matches from throughout the hierarchy. In cases where two or more hashes share keys, the hierarchy order determines which key/value pair will be used in the returned hash, with the pair in the highest priority data source winning.
-  
 
   # this will get the ::log element from everywhere and combine the hashses
   $logs  = hiera_hash('cloudwatchlogs::log', {})
