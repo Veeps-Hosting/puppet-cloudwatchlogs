@@ -14,7 +14,7 @@
 6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
-This module is a fork of [INSERT FORKED GUY HERE] that has been fixed to work with hiera. Examples using hiera have been added. Otherwise the functionality is very similar. 
+This module is a fork of [this repo](https://github.com/kemra102/puppet-cloudwatchlogs) that has been fixed to work with hiera. Examples have been adjusted to be hiera yaml examples. Otherwise the functionality is very similar. 
 This module installs, configures and manages the service for the AWS Cloudwatch Logs Agent on Amazon Linux, Ubuntu, Red Hat & CentOS EC2 instances.
 
 ## Module Description
@@ -36,68 +36,43 @@ This module does *NOT* manage the AWS CLI credentials. As such if you are not us
 [This module](https://forge.puppetlabs.com/jdowning/awscli) by [Justin Downing](https://github.com/justindowning) is recommended for this purpose.
 
 ### Beginning with cloudwatchlogs
+*ALL EXAMPLES ARE FOR HIERA IN YAML*
 
 The minimum you need to get this module up and running is (assuming your instance is launched with a suitable IAM role):
 
-```puppet
-include '::cloudwatchlogs'
+```yaml
+classes:
+- cloudwatchlogs
+
+cloudwatchlogs:
 ```
 
 ## Usage
 
-The above minimal config can also be presented as:
+On NON *Amazon Linux* instances you also need to provide a default region:
 
-```puppet
-class { '::cloudwatchlogs': }
+```yaml
+classes:
+- cloudwatchlogs
+cloudwatchlogs:
+  region: 'eu-west-1'
 ```
-
-On none *Amazon Linux* instances you also need to provide a default region:
-
-```puppet
-class { '::cloudwatchlogs': region => 'eu-west-1' }
-```
-For each log you want sent to Cloudwatch Logs you create a `cloudwatchlogs::log` resource.
+For each log you want send to Cloudwatch Logs you create a `cloudwatchlogs::log` resource.
+This shall be set as its own item. It requires a name for each log to create so that a nested object is created. 
 
 A simple example that might be used on the RedHat *::osfamily* is:
 
-```puppet
-class { '::cloudwatchlogs': region => 'eu-west-1' }
+```yaml
+classes:
+- cloudwatchlogs
+cloudwatchlogs:
+  region: 'eu-west-1'
+cloudwatchlogs::log:
+  'Messages':
+    path: '/var/log/messages'
+  'Node':
+    path: '/path/to/your/node.log'
 
-cloudwatchlogs::log { 'Messages':
-  path => '/var/log/messages',
-}
-cloudwatchlogs::log { 'Secure':
-  path => '/var/log/secure',
-}
-```
-
-Another example that might be used on the RedHat *::osfamily* to create individual log config files in /etc/awslogs/config/ is:
-
-```puppet
-class { '::cloudwatchlogs': region => 'eu-west-1' }
-
-cloudwatchlogs::compartment_log { 'Access':
-  path => '/var/log/httpd/access_logs',
-}
-cloudwatchlogs::compartment_log { 'Error':
-  path => '/var/log/httpd/error_logs',
-}
-```
-
-Alternatively logs can be defined as part of the main `cloudwatchlogs` class:
-
-```puppet
-class { '::cloudwatchlogs':
-  region => 'eu-west-1',
-  logs   => {
-    'Messages' => {
-      path => '/var/log/messages'
-    },
-    'Secure'   => {
-      path => '/var/log/secure'
-    }
-  }
-}
 ```
 
 See the *examples/* directory for further examples.
@@ -145,7 +120,7 @@ Optional. This is the absolute path to the log file being managed. If not set th
 
 Default: `{instance_id}`
 
-The name of the stream in Cloudwatch Logs.
+The name of the stream in Cloudwatch Logs. This should be a string like all the others. See the ams cloudwatch logs docs for options. One other common option is `{hostname}`
 
 #### `datetime_format`
 
@@ -164,6 +139,27 @@ Specifies the destination log group. A log group will be created automatically i
 Default: `undef`
 
 Optional. This is a regex string that identifies the start of a log line. See [the official docs](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/AgentReference.html) for further info.
+
+#### `Example`
+
+```yaml
+classes:
+- cloudwatchlogs
+
+cloudwatchlogs:
+  region: 'eu-west-1'
+
+cloudwatchlogs::log:
+  'node':
+    path: '/path/to/your/logfile.log'
+    streamname: '{hostname}'
+    datetime_format: '%Y-%m-%dT%H:%M:%S%z'
+    log_group_name: 'my-node-project'
+  'Messages':
+    path: '/var/log/messages'
+    streamname: '{hostname}'
+    log_group_name: 'system-messages'
+```
 
 ## Http Proxy Usage
 
@@ -207,10 +203,13 @@ To run lint and validator `pdk validate`
 To run unit tests `pdk test unit`
 
 ## Contributors
-
 Authors:
+
+* [Douglas Sappet](https://github.com/dsappet)
+
+Original Repo Authors:
 
 * [Danny Roberts](https://github.com/kemra102)
 * [Russ McKendrick](https://github.com/russmckendrick/)
 
-All other contributions: [https://github.com/kemra102/puppet-cloudwatchlogs/graphs/contributors](https://github.com/kemra102/puppet-cloudwatchlogs/graphs/contributors)
+All other contributions: [https://github.com/dsappet/puppet-cloudwatchlogs/graphs/contributors](https://github.com/dsappet/puppet-cloudwatchlogs/graphs/contributors)

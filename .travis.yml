@@ -1,43 +1,41 @@
----
 sudo: false
 dist: trusty
 language: ruby
 cache: bundler
 before_install:
-  - bundle -v
-  - rm -f Gemfile.lock
-  - gem update --system
-  - gem --version
-  - bundle -v
+- bundle -v
+- rm -f Gemfile.lock
+- gem update --system
+- gem --version
+- bundle -v
 script:
-  - 'bundle exec rake $CHECK'
-bundler_args: --without system_tests
+- bundle exec rake $CHECK
+bundler_args: "--without system_tests"
 rvm:
-  - 2.4.4
+- 2.4.4
 env:
   global:
-    - BEAKER_PUPPET_COLLECTION=puppet5 PUPPET_GEM_VERSION="~> 5.0"
+  - BEAKER_PUPPET_COLLECTION=puppet5 PUPPET_GEM_VERSION="~> 5.0"
+  - secure: di62yRmY0XOfj8AhD6Nzc0OR4Ip44PTPROXNcImIMQnXW7L/yx5VLBSBkCGtlw+f1Pk0E5MZL//yPtLHzmnHBXk9R7aJEPUAbEsQ8C5hs7EN0zLG0swSccoKsIJur+J58aLsVxoR9CzvyFliEBtea8eURumEKJMsgwRQE9k22afUJiCJIKOcvbpTzlE3r09lTk50AMVV3mInnYdRA+m4H/3OK4VPRgusFC4CozKwCtXjEEdDGaW8vGaFRW/BIbZ1nSLmlByh3dEEsAOw0q8TSFfGnZz0QohT3wwYhe9hD5MHXyUwaIe/dcTJAtvxzJxEzrkeJAlZAfuhmaMpqoevFCAZj5jIaC3Mpf64EclKFaeIcbuzrW6ha4UExHec7gnmEVGPpAVMb//VeTaltVesAUV8d+8GIkNaDDA59c/sNj2HM7heb29SDHjHWe/vsQEV79+swoySlJawv+OBXkSsNzRZoV6a14x+UuLhgJWfBU6MqK/FXpqsOkkVdjPmDNFaNYutAbBCZaTNfRFJSibL1N18iXPgSp2it8yboYJ8Jyn47iLwMWGvrKrENL69NiQ808UWEK0Xaz4gZqBDCAlxAd+UnKHJMRXq+GhRYxe7CABoIM18a7Vs9Ft5+ECtpoEkDJGFhp5HbLBrgBNUeb4SRpbPF3nkyio3BVgIrPpa1mQ=
 matrix:
   fast_finish: true
   include:
-    -
-      env: CHECK="syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop"
-    -
-      env: CHECK=parallel_spec
-    -
-      env: PUPPET_GEM_VERSION="~> 4.0" CHECK=parallel_spec
-      rvm: 2.1.9
+  - env: CHECK="syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore
+      check:test_file rubocop"
+  - env: CHECK=parallel_spec
+  - env: PUPPET_GEM_VERSION="~> 4.0" CHECK=parallel_spec
+    rvm: 2.1.9
 branches:
   only:
-    - master
-    - /^v\d/
+  - master
+  - "/^v\\d/"
 notifications:
   email: false
 deploy:
   provider: puppetforge
-  user: puppet
+  user: geekify
   password:
-    secure: ""
+    secure: $FORGE_PASS
   on:
     tags: true
     all_branches: true

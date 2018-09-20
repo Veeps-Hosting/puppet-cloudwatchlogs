@@ -12,7 +12,7 @@ class cloudwatchlogs::params {
     default: { $service_name = 'awslogs' }
   }
   $logging_config_file = '/etc/awslogs/awslogs_dot_log.conf'
-  $region = undef
-  $cloudwatchlogs_hash = hiera_hash('cloudwatchlogs', undef ) #undef #'eu-west-1'
+  $region = hiera_hash('cloudwatchlogs', undef )['region']
+  $cloudwatchlogs_hash = hiera_hash('cloudwatchlogs', undef )
   $log_level = undef
 }

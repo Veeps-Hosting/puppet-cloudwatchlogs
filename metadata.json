@@ -1,6 +1,6 @@
 {
   "name": "geekify-cloudwatchlogs",
-  "version": "2.3.12",
+  "version": "2.3.14",
   "author": "geekify",
   "summary": "Forked from kemra102 - Configure AWS Cloudwatch Logs on Amazon Linux, Ubuntu, Red Hat & CentOS EC2 instances.",
   "license": "BSD-2-Clause",

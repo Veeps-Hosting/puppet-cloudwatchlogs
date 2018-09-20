@@ -14,7 +14,7 @@ class cloudwatchlogs (
   $state_file           = $::cloudwatchlogs::params::state_file,
   $logging_config_file  = $::cloudwatchlogs::params::logging_config_file,
   $log_level            = $::cloudwatchlogs::params::log_level,
-  $region_old           = $::cloudwatchlogs::params::region,
+  $region               = $::cloudwatchlogs::params::region,
 ) inherits cloudwatchlogs::params {
 
 # This gets the metadata of this module and grabs the version to dump to console (need to use -v when running command)
@@ -22,8 +22,8 @@ class cloudwatchlogs (
   notify { "module version is ${$metadata['version']}" : }
 
 #somehow move this back into params? Unit tests depended on being able to inject this.
- #$region = $cloudwatchlogs_hash['region'] # this works as well, because this class inherits ::params
-  $region = $::cloudwatchlogs::params::cloudwatchlogs_hash['region']
+#$region = $cloudwatchlogs_hash['region'] # this works as well, because this class inherits ::params
+#region = $::cloudwatchlogs::params::cloudwatchlogs_hash['region'] #this is preffered but moving it to a class parameter instead
 
 # notify will put a console logged notification to the client when run using puppet agent -t -v -d 
 # -t is test -v is verbose -d is debug info.
@@ -39,17 +39,9 @@ class cloudwatchlogs (
   # hiera_array - Returns all matches throughout the hierarchy — not just the first match — as a flattened array of unique values. If any of the matched values are arrays, they’re flattened and included in the results.
   # hiera_hash - Returns a merged hash of matches from throughout the hierarchy. In cases where two or more hashes share keys, the hierarchy order determines which key/value pair will be used in the returned hash, with the pair in the highest priority data source winning.
   
-  #yes there is a difference between the $logs_ and $log_ variables here
-  #this hash comes from the nested ::logs
-  $logs_hiera      = hiera_hash('cloudwatchlogs::log',{})
-  validate_hash($logs_hiera)
 
-  #this hash comes from its own ::log 
-  $log_hiera = hiera_hash('cloudwatchlogs::log', {})
-  validate_hash($log_hiera)
-
-  #lets combine them. Perhaps I should have used merge_deep here but I didnt want hashes combining
-  $logs  = merge($logs_hiera, $log_hiera)
+  # this will get the ::log element from everywhere and combine the hashses
+  $logs  = hiera_hash('cloudwatchlogs::log', {})
   validate_hash($logs)
   notify { "all them log hashes: [${$logs}]" : }
 
