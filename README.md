@@ -1,4 +1,4 @@
-# cloudwatchlogs [![Build Status](https://travis-ci.org/kemra102/puppet-cloudwatchlogs.svg)](https://travis-ci.org/kemra102/puppet-cloudwatchlogs)
+# cloudwatchlogs [![Build Status](https://travis-ci.org/dsappet/puppet-cloudwatchlogs.svg)](https://travis-ci.org/dsappet/puppet-cloudwatchlogs)
 
 #### Table of Contents
 
@@ -14,7 +14,7 @@
 6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
-
+This module is a fork of [INSERT FORKED GUY HERE] that has been fixed to work with hiera. Examples using hiera have been added. Otherwise the functionality is very similar. 
 This module installs, configures and manages the service for the AWS Cloudwatch Logs Agent on Amazon Linux, Ubuntu, Red Hat & CentOS EC2 instances.
 
 ## Module Description
@@ -200,6 +200,11 @@ More information on support as well as information in general about the set-up o
 ## Development
 
 Contributions are welcome via pull requests.
+To test and build:
+Download the Puppet Development Kit from [https://puppet.com/download-puppet-development-kit]
+To build run `pdk build` from terminal in project folder
+To run lint and validator `pdk validate`
+To run unit tests `pdk test unit`
 
 ## Contributors
 

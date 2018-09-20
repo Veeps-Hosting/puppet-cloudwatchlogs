@@ -7,12 +7,12 @@ class cloudwatchlogs::params {
   $osname = $facts['os']['name']
   $osmajor = $facts['os']['release']['major']
   $oslong = "${osname}${osmajor}"
-  
   case $oslong {
     'Amazon2': { $service_name = 'awslogsd' }
     default: { $service_name = 'awslogs' }
   }
   $logging_config_file = '/etc/awslogs/awslogs_dot_log.conf'
-  $region = 'eu-west-1'
+  $region = undef
+  $cloudwatchlogs_hash = hiera_hash('cloudwatchlogs', undef ) #undef #'eu-west-1'
   $log_level = undef
 }

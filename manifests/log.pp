@@ -7,8 +7,10 @@ define cloudwatchlogs::log (
 
 ){
 
-  notify("Notify - path var in log is [${$path}]" )
+  #notify("Notify - path var in log is [${$path}]" )
+  info('Info - running log.pp')
   info("Info - path var in log is [${$path}]")
+  info("Info - streamname var in log.pp is [${$streamname}]")
 
   if $path == undef {
     $log_path = $name
@@ -30,6 +32,7 @@ define cloudwatchlogs::log (
   concat::fragment { "cloudwatchlogs_fragment_${name}":
     target  => '/etc/awslogs/awslogs.conf',
     content => template('cloudwatchlogs/awslogs_log.erb'),
+    order   => '01',
   }
 
 }

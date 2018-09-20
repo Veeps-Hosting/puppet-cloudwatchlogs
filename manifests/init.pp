@@ -2,49 +2,63 @@
 #
 # Configure AWS Cloudwatch Logs on Amazon Linux instances.
 #
-# === Variables
-#
-# [*state_file*]
-#   State file for the awslogs agent.
-#
-# [*region*]
-#   The region your EC2 instance is running in.
-#
-# === Examples
-#
-#  include '::cloudwatchlogs'
-#
-#  class { '::cloudwatchlogs': region => 'eu-west-1' }
-#
 # === Authors
 #
-# Danny Roberts <danny.roberts@reconnix.com>
-# Russ McKendrick <russ.mckendrick@reconnix.com>
+# Douglas Sappet <dsappet@gmail.com>
 #
 # === Copyright
 #
-# Copyright 2015 Danny Roberts & Russ McKendrick
+# Copyright 2018 Douglas Sappet
 #
 class cloudwatchlogs (
   $state_file           = $::cloudwatchlogs::params::state_file,
   $logging_config_file  = $::cloudwatchlogs::params::logging_config_file,
-  $region               = $::cloudwatchlogs::params::region,
   $log_level            = $::cloudwatchlogs::params::log_level,
-  $logs                 = {}
+  $region_old           = $::cloudwatchlogs::params::region,
 ) inherits cloudwatchlogs::params {
 
-  notify("Notify - region var in init is [${$region}]" )
-  info("Info - region var in init is [${$region}]")
+# This gets the metadata of this module and grabs the version to dump to console (need to use -v when running command)
+  $metadata = load_module_metadata('cloudwatchlogs')
+  notify { "module version is ${$metadata['version']}" : }
 
+#somehow move this back into params? Unit tests depended on being able to inject this.
+ #$region = $cloudwatchlogs_hash['region'] # this works as well, because this class inherits ::params
+  $region = $::cloudwatchlogs::params::cloudwatchlogs_hash['region']
+
+# notify will put a console logged notification to the client when run using puppet agent -t -v -d 
+# -t is test -v is verbose -d is debug info.
+# optionally can add -noop to cause no actual modifications to occur
+#  notify { "Notify - region var in init is [${$region}]" : }
+#  notify { "Notify - Operating system is [${$::operatingsystem}]" : }
+# info is used to log to the puppetmaster log file
+  #info("Running init code")
+  #info("Info - region var in init is [${$region}]")
+
+  #notes for me on hiera commands
+  # hiera - Performs a standard priority lookup and returns the most specific value for a given key. The returned value can be data of any type (strings, arrays, or hashes).
+  # hiera_array - Returns all matches throughout the hierarchy — not just the first match — as a flattened array of unique values. If any of the matched values are arrays, they’re flattened and included in the results.
+  # hiera_hash - Returns a merged hash of matches from throughout the hierarchy. In cases where two or more hashes share keys, the hierarchy order determines which key/value pair will be used in the returned hash, with the pair in the highest priority data source winning.
+  
+  #yes there is a difference between the $logs_ and $log_ variables here
+  #this hash comes from the nested ::logs
+  $logs_hiera      = hiera_hash('cloudwatchlogs::log',{})
+  validate_hash($logs_hiera)
+
+  #this hash comes from its own ::log 
+  $log_hiera = hiera_hash('cloudwatchlogs::log', {})
+  validate_hash($log_hiera)
+
+  #lets combine them. Perhaps I should have used merge_deep here but I didnt want hashes combining
+  $logs  = merge($logs_hiera, $log_hiera)
   validate_hash($logs)
-  $logs_real       = merge(hiera_hash('cloudwatchlogs::logs',{}),$logs)
+  notify { "all them log hashes: [${$logs}]" : }
 
+  #validate all that other stuff
   validate_absolute_path($state_file)
   validate_absolute_path($logging_config_file)
   if $region {
     validate_string($region)
   }
-
   if $log_level {
     validate_string($log_level)
   }
@@ -54,8 +68,8 @@ class cloudwatchlogs (
     default  => Exec['cloudwatchlogs-install'],
   }
 
-  validate_hash($logs_real)
-  create_resources('cloudwatchlogs::log', $logs_real)
+  # this create_resources executes the code at log.pp as it is a `define` object given the named hashes from $logs
+  create_resources('cloudwatchlogs::log', $logs)
 
   case $::operatingsystem {
     'Amazon': {
@@ -136,7 +150,6 @@ class cloudwatchlogs (
         content => template('cloudwatchlogs/awslogs_header.erb'),
         order   => '00',
       }
-
       file { '/var/awslogs':
         ensure => 'directory',
       } ->
