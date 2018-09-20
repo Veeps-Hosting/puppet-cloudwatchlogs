@@ -28,6 +28,8 @@ def changelog_future_release
 end
 
 PuppetLint.configuration.send('disable_relative')
+PuppetLint.configuration.send('disable_arrow_on_right_operand_line')
+PuppetLint.configuration.send('disable_variable_scope')
 
 if Bundler.rubygems.find_name('github_changelog_generator').any?
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
