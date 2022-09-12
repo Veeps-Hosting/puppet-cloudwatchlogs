@@ -1,4 +1,4 @@
-# cloudwatchlogs [![Build Status](https://travis-ci.org/dsappet/puppet-cloudwatchlogs.svg)](https://travis-ci.org/dsappet/puppet-cloudwatchlogs)
+# cloudwatchlogs [![Build Status](https://travis-ci.org/Veeps-Hosting/puppet-cloudwatchlogs.svg)](https://travis-ci.org/Veeps-Hosting/puppet-cloudwatchlogs)
 
 #### Table of Contents
 
@@ -14,7 +14,7 @@
 6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
-This module is a fork of [this repo](https://github.com/kemra102/puppet-cloudwatchlogs) that has been fixed to work with hiera. Examples have been adjusted to be hiera yaml examples. Otherwise the functionality is very similar. 
+This module is a fork of [this repo](https://github.com/kemra102/puppet-cloudwatchlogs) that has been fixed to work with hiera. Examples have been adjusted to be hiera yaml examples. Otherwise the functionality is very similar.
 This module installs, configures and manages the service for the AWS Cloudwatch Logs Agent on Amazon Linux, Ubuntu, Red Hat & CentOS EC2 instances.
 
 ## Module Description
@@ -58,7 +58,7 @@ cloudwatchlogs:
   region: 'eu-west-1'
 ```
 For each log you want send to Cloudwatch Logs you create a `cloudwatchlogs::log` resource.
-This shall be set as its own item. It requires a name for each log to create so that a nested object is created. 
+This shall be set as its own item. It requires a name for each log to create so that a nested object is created.
 
 A simple example that might be used on the RedHat *::osfamily* is:
 
@@ -205,11 +205,11 @@ To run unit tests `pdk test unit`
 ## Contributors
 Authors:
 
-* [Douglas Sappet](https://github.com/dsappet)
+* [Grant Davies](https://github.com/Veeps-Hosting)
 
 Original Repo Authors:
-
+* [Douglas Sappet](https://github.com/Veeps-Hosting)
 * [Danny Roberts](https://github.com/kemra102)
 * [Russ McKendrick](https://github.com/russmckendrick/)
 
-All other contributions: [https://github.com/dsappet/puppet-cloudwatchlogs/graphs/contributors](https://github.com/dsappet/puppet-cloudwatchlogs/graphs/contributors)
+All other contributions: [https://github.com/Veeps-Hosting/puppet-cloudwatchlogs/graphs/contributors](https://github.com/Veeps-Hosting/puppet-cloudwatchlogs/graphs/contributors)

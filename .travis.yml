@@ -33,7 +33,7 @@ notifications:
   email: false
 deploy:
   provider: puppetforge
-  user: geekify
+  user: veepshosting
   password:
     secure: $FORGE_PASS
   on:

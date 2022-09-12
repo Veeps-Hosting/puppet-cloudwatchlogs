@@ -25,7 +25,7 @@ class cloudwatchlogs (
 #$region = $cloudwatchlogs_hash['region'] # this works as well, because this class inherits ::params
 #region = $::cloudwatchlogs::params::cloudwatchlogs_hash['region'] #this is preffered but moving it to a class parameter instead
 
-# notify will put a console logged notification to the client when run using puppet agent -t -v -d 
+# notify will put a console logged notification to the client when run using puppet agent -t -v -d
 # -t is test -v is verbose -d is debug info.
 # optionally can add -noop to cause no actual modifications to occur
 #  notify { "Notify - region var in init is [${$region}]" : }
@@ -162,7 +162,7 @@ class cloudwatchlogs (
       } else {
         exec { 'cloudwatchlogs-install':
           path    => '/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin',
-          command => "python /usr/local/src/awslogs-agent-setup.py -n -r ${region} -c /etc/awslogs/awslogs.conf",
+          command => "python2 /usr/local/src/awslogs-agent-setup.py -n -r ${region} -c /etc/awslogs/awslogs.conf",
           onlyif  => '[ -e /usr/local/src/awslogs-agent-setup.py ]',
           unless  => '[ -d /var/awslogs/bin ]',
           require => [

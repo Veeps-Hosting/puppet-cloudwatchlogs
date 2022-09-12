@@ -1,3 +1,11 @@
+## 2022-12-09 - Release 4.0.0
+### Summary
+Specify python2 execution to achieve functionality with Ubuntu 20.04 and later, including 22.04.
+
+#### Bugfixes
+- Specify python2 binary for execution, includgin regression testing back to Ubuntu 18.04.
+- Bump dependencies to latest compatible versions
+
 ## 2016-12-04 - Release 3.2.1
 ### Summary
 Small bugfix release.
