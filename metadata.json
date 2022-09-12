@@ -1,6 +1,6 @@
 {
   "name": "veepshosting-cloudwatchlogs",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "author": "veepshosting",
   "summary": "Forked from kemra102 & dsappet (geekify)",
   "license": "BSD-2-Clause",
@@ -10,11 +10,11 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0"
+      "version_requirement": "> 3.0.0"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.1.0"
+      "version_requirement": "> 1.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -34,7 +34,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 7.0.0"
+      "version_requirement": "> 6.0.0"
     }
   ],
   "tags": [

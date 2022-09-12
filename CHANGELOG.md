@@ -1,3 +1,11 @@
+## 2022-12-09 - Release 4.0.2
+### Summary
+Minor bugfix.
+
+#### Bugfixes
+- Remove notify on each Puppet run, normally only used for debugging
+- Bump dependencies to latest compatible versions
+
 ## 2022-12-09 - Release 4.0.0
 ### Summary
 Specify python2 execution to achieve functionality with Ubuntu 20.04 and later, including 22.04.

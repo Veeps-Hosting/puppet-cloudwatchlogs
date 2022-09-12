@@ -19,7 +19,7 @@ class cloudwatchlogs (
 
 # This gets the metadata of this module and grabs the version to dump to console (need to use -v when running command)
   $metadata = load_module_metadata('cloudwatchlogs')
-  notify { "module version is ${$metadata['version']}" : }
+  #notify { "module version is ${$metadata['version']}" : }
 
 #somehow move this back into params? Unit tests depended on being able to inject this.
 #$region = $cloudwatchlogs_hash['region'] # this works as well, because this class inherits ::params
@@ -42,7 +42,7 @@ class cloudwatchlogs (
   # this will get the ::log element from everywhere and combine the hashses
   $logs  = hiera_hash('cloudwatchlogs::log', {})
   validate_hash($logs)
-  notify { "all them log hashes: [${$logs}]" : }
+  #notify { "all them log hashes: [${$logs}]" : }
 
   #validate all that other stuff
   validate_absolute_path($state_file)
