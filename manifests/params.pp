@@ -1,5 +1,4 @@
 class cloudwatchlogs::params {
-
   case $::operatingsystem {
     'Amazon': { $state_file = '/var/lib/awslogs/agent-state' }
     default: { $state_file = '/var/awslogs/state/agent-state' }
@@ -15,4 +14,5 @@ class cloudwatchlogs::params {
   $region = hiera_hash('cloudwatchlogs', undef )['region']
   $cloudwatchlogs_hash = hiera_hash('cloudwatchlogs', undef )
   $log_level = undef
+  $logs = {}
 }
